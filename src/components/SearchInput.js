@@ -1,7 +1,19 @@
-import React from 'react';
-import { TextInput, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { TextInput, StyleSheet, Alert } from 'react-native';
+import { fetchLocationId, fetchWeather } from '../../utils/api';
+import { AppContext } from '../context/AppContext';
 
 export default function SearchInput() {
+    const [state, setState] = useContext(AppContext);
+    async function getWeather(event) {
+        let woeId = await fetchLocationId(event.nativeEvent.text);
+        if (woeId !== NaN) {
+            let data = await fetchWeather(woeId);
+            if (data !== undefined){
+                setState(state => ({...state, location: data.location, weather: data.weather, temperature: `${parseInt(data.temperature.toString())}˚`}));
+            }
+        }
+    }
     return (
         <TextInput 
             autoCorrect={false}
@@ -9,6 +21,7 @@ export default function SearchInput() {
             placeholderTextColor='white'
             style={styles.textInput}
             clearButtonMode='always'
+            onSubmitEditing={value => getWeather(value)}
         />
     );
 }
