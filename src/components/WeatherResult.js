@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View, Platform, KeyboardAvoidingView, ImageBackground, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Platform, KeyboardAvoidingView, ImageBackground, Dimensions, ActivityIndicator } from 'react-native';
 import SearchInput from '../components/SearchInput';
 import getImageForWeather from '../../utils/getImageForWeather';
 import { AppContext } from '../context/AppContext';
@@ -8,6 +8,7 @@ export default function WeatherResult(props) {
     const [state, setState] = useContext(AppContext);
     return (
       <KeyboardAvoidingView>
+         <StatusBar barStyle="light-content" />
         <ImageBackground
           source={getImageForWeather(state.weather)}
           style={styles.imageContainer}
@@ -16,9 +17,30 @@ export default function WeatherResult(props) {
           <View
             style={styles.detailsContainer}
           >
-            <Text style={styles.largeText, styles.textStyle}>{state.location}</Text>
-            <Text style={styles.largeText, styles.textStyle}>{state.weather}</Text>
-            <Text style={styles.largeText, styles.textStyle}>{state.temperature}</Text>
+            <ActivityIndicator
+              animating={state.loading}
+              color="white"
+              size="large"
+            />
+
+            {!state.loading && (
+              <View>
+                {state.error && (
+                  <Text style={[styles.smallText, styles.textStyle]}>
+                    Could not load weather, please try a different
+                    city.
+                  </Text>
+                )}
+
+                {!state.error && (
+                    <View>
+                        <Text style={styles.largeText, styles.textStyle}>{state.location}</Text>
+                        <Text style={styles.largeText, styles.textStyle}>{state.weather}</Text>
+                        <Text style={styles.largeText, styles.textStyle}>{state.temperature}</Text>
+                    </View>
+                )}
+              </View>
+            )}
             <SearchInput />
           </View>
         </ImageBackground>
@@ -45,7 +67,7 @@ const styles = StyleSheet.create({
     }),
   },
   largeText: {
-    fontSize: 44,
+    fontSize: 200,
   },
   smallText: {
     fontSize: 18,

@@ -6,12 +6,20 @@ import { AppContext } from '../context/AppContext';
 export default function SearchInput() {
     const [state, setState] = useContext(AppContext);
     async function getWeather(event) {
-        let woeId = await fetchLocationId(event.nativeEvent.text);
-        if (woeId !== NaN) {
-            let data = await fetchWeather(woeId);
-            if (data !== undefined){
-                setState(state => ({...state, location: data.location, weather: data.weather, temperature: `${parseInt(data.temperature.toString())}˚`}));
+        setState(state => ({...state, loading: true}));
+        try {
+            let woeId = await fetchLocationId(event.nativeEvent.text);
+            if (!isNaN(woeId)) {
+                let data = await fetchWeather(woeId);
+                console.log(data)
+                if (data !== undefined){
+                    setState(state => ({...state, location: data.location, weather: data.weather, temperature: `${parseInt(data.temperature.toString())}˚`, loading: false, error: false}));
+                }
+            } else {
+                setState(state => ({...state, loading: false, error: true}))
             }
+        } catch (e) {
+            setState(state => ({...state, error: true}))
         }
     }
     return (
