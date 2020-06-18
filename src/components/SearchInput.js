@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { TextInput, StyleSheet, View } from 'react-native';
-import { fetchLocationId, fetchWeather, fetchSvgs } from '../../utils/api';
+import { TextInput, StyleSheet } from 'react-native';
+import { fetchLocationId, fetchWeather } from '../../utils/api';
 import { AppContext } from '../context/AppContext';
 
 export default function SearchInput() {

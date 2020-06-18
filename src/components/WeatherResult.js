@@ -4,15 +4,17 @@ import SearchInput from '../components/SearchInput';
 import getImageForWeather from '../../utils/getImageForWeather';
 import { AppContext } from '../context/AppContext';
 
-export default function WeatherResult(props) {
+export default function WeatherResult() {
     const [state, setState] = useContext(AppContext);
     return (
       <KeyboardAvoidingView>
-         <StatusBar barStyle="light-content" />
+        <StatusBar 
+            barStyle="light-content" 
+        />
         <ImageBackground
-          source={getImageForWeather(state.weather)}
-          style={styles.imageContainer}
-          imageStyle={styles.image}
+            source={getImageForWeather(state.weather)}
+            style={styles.imageContainer}
+            imageStyle={styles.image}
         >
           <View
             style={styles.detailsContainer}
@@ -26,10 +28,7 @@ export default function WeatherResult(props) {
             {!state.loading && (
               <View>
                 {state.error && (
-                  <Text style={styles.smallText}>
-                    Could not load weather, please try a different
-                    city.
-                  </Text>
+                  <Text style={styles.smallText}>Could not load weather, please try a different city.</Text>
                 )}
 
                 {!state.error && (
@@ -55,13 +54,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  weatherBg: {
-    backgroundColor: 'black',
-    opacity: .15,
-    borderStyle: 'solid',
-    borderColor: 'white',
-    borderRadius: 10
-  },
   largeText: {
     textAlign: 'center',
     fontSize: 44,
@@ -82,19 +74,6 @@ const styles = StyleSheet.create({
         fontSize: 50
       },
     }),
-  },
-  textInput: {
-    backgroundColor: '#666', 
-    color: 'white',
-    height: 40,
-    width: 300,
-    marginTop: 20, 
-    marginHorizontal: 20, 
-    paddingHorizontal: 10, 
-    alignSelf: 'center',
-    borderStyle: 'solid',
-    borderColor: '#fff',
-    borderRadius: 10,
   },
   detailsContainer: {
     width: Math.round(Dimensions.get('window').width), 
