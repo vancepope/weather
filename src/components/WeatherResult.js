@@ -26,7 +26,7 @@ export default function WeatherResult(props) {
             {!state.loading && (
               <View>
                 {state.error && (
-                  <Text style={[styles.smallText, styles.textStyle]}>
+                  <Text style={styles.smallText}>
                     Could not load weather, please try a different
                     city.
                   </Text>
@@ -34,9 +34,9 @@ export default function WeatherResult(props) {
 
                 {!state.error && (
                     <View>
-                        <Text style={styles.largeText, styles.textStyle}>{state.location}</Text>
-                        <Text style={styles.largeText, styles.textStyle}>{state.weather}</Text>
-                        <Text style={styles.largeText, styles.textStyle}>{state.temperature}</Text>
+                        <Text style={styles.largeText}>{state.location}</Text>
+                        <Text style={styles.smallText}>{state.weather}</Text>
+                        <Text style={styles.largeText}>{state.temperature}</Text>
                     </View>
                 )}
               </View>
@@ -55,22 +55,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  weatherBg: {
+    backgroundColor: 'black',
+    opacity: .15,
+    borderStyle: 'solid',
+    borderColor: 'white',
+    borderRadius: 10
+  },
+  largeText: {
+    textAlign: 'center',
+    fontSize: 44,
+  },
+  smallText: {
+    textAlign: 'center',
+    fontSize: 18,
+  },
   textStyle: {
     textAlign: 'center',
     ...Platform.select({
       ios: {
         fontFamily: 'AvenirNext-Regular',
+        fontSize: 50,
       },
       android: {
         fontFamily: 'Roboto',
+        fontSize: 50
       },
     }),
-  },
-  largeText: {
-    fontSize: 200,
-  },
-  smallText: {
-    fontSize: 18,
   },
   textInput: {
     backgroundColor: '#666', 
