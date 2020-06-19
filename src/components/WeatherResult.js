@@ -3,11 +3,15 @@ import { StyleSheet, Text, View, StatusBar, Platform, KeyboardAvoidingView, Imag
 import SearchInput from '../components/SearchInput';
 import getImageForWeather from '../../utils/getImageForWeather';
 import { AppContext } from '../context/AppContext';
+import CityWeather from '../components/CityWeather';
 
 export default function WeatherResult() {
     const [state, setState] = useContext(AppContext);
     return (
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView 
+        style={styles.container}
+        behavior='padding'
+      >
         <StatusBar 
             barStyle="light-content" 
         />
@@ -19,28 +23,23 @@ export default function WeatherResult() {
           <View
             style={styles.detailsContainer}
           >
-            <ActivityIndicator
-              animating={state.loading}
-              color="white"
-              size="large"
-            />
-
-            {!state.loading && (
-              <View>
-                {state.error && (
-                  <Text style={styles.smallText}>Could not load weather, please try a different city.</Text>
-                )}
-
-                {!state.error && (
-                    <View>
-                        <Text style={styles.largeText}>{state.location}</Text>
-                        <Text style={styles.smallText}>{state.weather}</Text>
-                        <Text style={styles.largeText}>{state.temperature}</Text>
-                    </View>
-                )}
-              </View>
-            )}
-            <SearchInput />
+            <View
+                style={styles.display}
+            >
+                {!state.loading ? 
+                    ( <CityWeather /> ) : 
+                    (<ActivityIndicator
+                        animating={state.loading}
+                        color="white"
+                        size="large"
+                    />)
+                }
+            </View>
+            <View 
+                style={{flex: 1, flexDirection: 'column'}} 
+            >
+                <SearchInput />
+            </View>
           </View>
         </ImageBackground>
       </KeyboardAvoidingView>
@@ -49,10 +48,21 @@ export default function WeatherResult() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1, 
+    flexDirection: 'row', 
+  },
+  display: { 
+      flex: -3, 
+      flexDirection: 'row', 
+      flexBasis: '25%', 
+      minHeight: '25%', 
+      minWidth: '100%',
+      backgroundColor: '#000', 
+      opacity: .3, 
+      borderRadius: 10, 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      marginBottom: 150
   },
   largeText: {
     textAlign: 'center',
@@ -82,6 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     backgroundColor: 'rgba(0,0,0,0.2)', 
     paddingHorizontal: 20,
+    paddingTop: 100
   },
   imageContainer: {
     flex: 1,
