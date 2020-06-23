@@ -10,7 +10,7 @@ export default function WeatherResult() {
             >
             {state.error && (
                 <View>
-                    <Text style={styles.smallText}>Could not load weather, please try a different city.</Text>
+                    <Text style={styles.largeText}>Not found, please try again.</Text>
                 </View>
             )}
 
