@@ -23,6 +23,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "Weather app built with React Native",
+    "githubUrl": "https://github.com/vancepope/weather"
   }
 }
